@@ -1,0 +1,577 @@
+{
+  "datasets": [
+    {
+      "name": "ac43af72",
+      "displayName": "extortion_reports",
+      "config": {
+        "version": "1.1",
+        "source": "catalog_cr.golden.extortion_reports",
+        "dimensions": [
+          {
+            "name": "report_id",
+            "expr": "source.report_id",
+            "displayName": "Report Id"
+          },
+          {
+            "name": "ubigeo",
+            "expr": "source.ubigeo",
+            "displayName": "Ubigeo"
+          },
+          {
+            "name": "department",
+            "expr": "source.department",
+            "displayName": "Department"
+          },
+          {
+            "name": "province",
+            "expr": "source.province",
+            "displayName": "Province"
+          },
+          {
+            "name": "district",
+            "expr": "source.district",
+            "displayName": "District"
+          },
+          {
+            "name": "total_extortions",
+            "expr": "source.total_extortions",
+            "displayName": "Total Extortions"
+          },
+          {
+            "name": "min_extortions",
+            "expr": "source.min_extortions",
+            "displayName": "Min Extortions"
+          },
+          {
+            "name": "max_extortions",
+            "expr": "source.max_extortions",
+            "displayName": "Max Extortions"
+          },
+          {
+            "name": "year_min_extortions",
+            "expr": "source.year_min_extortions",
+            "displayName": "Year Min Extortions"
+          },
+          {
+            "name": "year_max_extortions",
+            "expr": "source.year_max_extortions",
+            "displayName": "Year Max Extortions"
+          },
+          {
+            "name": "avg_extortions",
+            "expr": "source.avg_extortions",
+            "displayName": "Avg Extortions"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          },
+          {
+            "displayName": "Total Denuncias",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 0.0
+              },
+              "abbreviation": "compact"
+            },
+            "name": "sum_total_extortions",
+            "expr": "SUM(total_extortions)",
+            "comment": "Suma total de denuncias de extorsion"
+          },
+          {
+            "name": "max_extortions_peak",
+            "expr": "MAX(max_extortions)",
+            "displayName": "Pico Máximo Anual",
+            "comment": "Mayor cantidad de extorsiones en un solo año para un distrito"
+          },
+          {
+            "displayName": "Promedio Extorsiones",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            },
+            "name": "avg_extortions_measure",
+            "expr": "AVG(avg_extortions)",
+            "comment": "Promedio de extorsiones anuales por distrito"
+          }
+        ]
+      }
+    },
+    {
+      "name": "top100_districts",
+      "displayName": "Top 25 Distritos",
+      "queryLines": [
+        "SELECT\n",
+        "  department,\n",
+        "  province,\n",
+        "  district,\n",
+        "  total_extortions\n",
+        "FROM\n",
+        "  catalog_cr.golden.extortion_reports\n",
+        "ORDER BY\n",
+        "  total_extortions DESC\n",
+        "LIMIT 25"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "d5199351",
+      "displayName": "Top 100 Distritos",
+      "layout": [
+        {
+          "widget": {
+            "name": "9e117959",
+            "queries": [
+              {
+                "name": "dashboards/01f13df09dbb1d59b469fc3be1d48cdf/datasets/01f141eb48fb105caf4ce76dab6fccfa_department",
+                "query": {
+                  "datasetName": "ac43af72",
+                  "fields": [
+                    {
+                      "name": "department",
+                      "expression": "`department`"
+                    },
+                    {
+                      "name": "department_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Departamento",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "department",
+                    "queryName": "dashboards/01f13df09dbb1d59b469fc3be1d48cdf/datasets/01f141eb48fb105caf4ce76dab6fccfa_department"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 0,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "title_header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## <span style=\"font-size: 30px;\">🔍 Top 25 Distritos con más denuncias de Extorsión en el Perú en los últimos 5 años</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 8,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_total",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ac43af72",
+                  "fields": [
+                    {
+                      "name": "measure(sum_total_extortions)",
+                      "expression": "MEASURE(`sum_total_extortions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Denuncias",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(sum_total_extortions)",
+                  "format": {
+                    "type": "number-plain",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    },
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Total Denuncias"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_districts",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ac43af72",
+                  "fields": [
+                    {
+                      "name": "measure(count)",
+                      "expression": "MEASURE(`count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Distritos con Denuncias",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(count)",
+                  "format": {
+                    "type": "number-plain",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    },
+                    "abbreviation": "none"
+                  },
+                  "displayName": "Distritos"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_peak",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ac43af72",
+                  "fields": [
+                    {
+                      "name": "measure(max_extortions_peak)",
+                      "expression": "MEASURE(`max_extortions_peak`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Pico Máximo Anual",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(max_extortions_peak)",
+                  "format": {
+                    "type": "number-plain",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    },
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Pico Máximo"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_top100",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top100_districts",
+                  "fields": [
+                    {
+                      "name": "department",
+                      "expression": "`department`"
+                    },
+                    {
+                      "name": "district",
+                      "expression": "`district`"
+                    },
+                    {
+                      "name": "sum(total_extortions)",
+                      "expression": "SUM(`total_extortions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 25 Distritos por Denuncias de extorsión",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "district",
+                  "displayName": "Distritos",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_extortions)",
+                  "displayName": "N° denuncias de extorsión",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "department",
+                  "displayName": "Departamentos",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "ANCASH",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 4
+                        }
+                      },
+                      {
+                        "value": "LA LIBERTAD",
+                        "color": "#7EE883"
+                      },
+                      {
+                        "value": "LIMA METROPOLITANA",
+                        "color": "#E87373"
+                      },
+                      {
+                        "value": "PROV. CONST. DEL CALLAO",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 3
+                        }
+                      },
+                      {
+                        "value": "LAMBAYEQUE",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 6
+                        }
+                      },
+                      {
+                        "value": "PIURA",
+                        "color": "#AE59E1"
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 11,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "table_detail",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ac43af72",
+                  "fields": [
+                    {
+                      "name": "department",
+                      "expression": "`department`"
+                    },
+                    {
+                      "name": "province",
+                      "expression": "`province`"
+                    },
+                    {
+                      "name": "district",
+                      "expression": "`district`"
+                    },
+                    {
+                      "name": "measure(sum_total_extortions)",
+                      "expression": "MEASURE(`sum_total_extortions`)"
+                    },
+                    {
+                      "name": "measure(max_extortions_peak)",
+                      "expression": "MEASURE(`max_extortions_peak`)"
+                    },
+                    {
+                      "name": "measure(avg_extortions_measure)",
+                      "expression": "MEASURE(`avg_extortions_measure`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Detalle por Distrito",
+                "showTitle": true
+              },
+              "rowsPerPage": 25,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "department",
+                    "displayName": "Departamento"
+                  },
+                  {
+                    "fieldName": "province",
+                    "displayName": "Provincia"
+                  },
+                  {
+                    "fieldName": "district",
+                    "displayName": "Distrito"
+                  },
+                  {
+                    "fieldName": "measure(sum_total_extortions)",
+                    "displayName": "Total Denuncias",
+                    "style": {
+                      "type": "basic",
+                      "rules": [
+                        {
+                          "condition": {
+                            "operand": {
+                              "type": "data-value",
+                              "value": "500"
+                            },
+                            "operator": ">="
+                          },
+                          "backgroundColor": "#FFCDD2",
+                          "foregroundColor": "#B71C1C"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "fieldName": "measure(max_extortions_peak)",
+                    "displayName": "Pico Máximo Anual"
+                  },
+                  {
+                    "fieldName": "measure(avg_extortions_measure)",
+                    "displayName": "Promedio Anual"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 12,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F5F5F5"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF"
+      },
+      "widgetBorderColor": {
+        "light": "#E0E0E0"
+      },
+      "visualizationColors": [
+        "#C62828",
+        "#EF6C00",
+        "#F9A825",
+        "#2E7D32",
+        "#00838F",
+        "#1565C0",
+        "#6A1B9A",
+        "#AD1457",
+        "#4E342E",
+        "#37474F",
+        "#FF7043",
+        "#66BB6A"
+      ],
+      "widgetHeaderAlignment": "LEFT",
+      "fontFamily": "Trebuchet MS"
+    },
+    "applyModeEnabled": false
+  }
+}
