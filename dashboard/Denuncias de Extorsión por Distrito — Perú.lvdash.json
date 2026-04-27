@@ -363,7 +363,7 @@
             "spec": {
               "version": 3,
               "frame": {
-                "title": "Top 25 Distritos por Denuncias de extorsión",
+                "title": "Top 25 Distritos con más denuncias de extorsión en los últimos 5 años (ene. 2021 - sep. 2025)",
                 "showTitle": true
               },
               "widgetType": "bar",
